@@ -35,7 +35,7 @@ const PatientDetailView = ({ onBack }) => {
   return (
     <div className="px-5 pb-10 animate-in fade-in zoom-in-95 duration-300 bg-[#FDFDFD] min-h-full font-sans text-slate-800">
       {/* ヘッダー (Header) */}
-      <div className="flex items-center gap-4 mb-6 pt-4">
+      <div className="flex items-center gap-4 mb-6">
         <button onClick={onBack} className="p-2 -ml-2 hover:bg-slate-100 rounded-full transition-colors cursor-pointer">
           <ChevronLeft className="w-6 h-6 text-slate-400" />
         </button>
