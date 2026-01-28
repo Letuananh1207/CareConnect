@@ -1,17 +1,38 @@
-import React from 'react';
-import { ScanEye, ClipboardEdit, UserCircle, ChevronLeft, SendHorizontal } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ScanEye, ClipboardEdit, UserCircle, ChevronLeft, SendHorizontal, QrCode, Loader2, X } from 'lucide-react';
 
 const CareMenuView = ({ onBack, onOpenRecord, onOpenChart, onOpenHandover }) => {
   const brandColor = "#75a7a4";
+  const [showARModal, setShowARModal] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(60);
 
-  // 介護業務メニュー (Danh sách nghiệp vụ hộ lý)
+  // Logic đếm ngược cho mã QR
+  useEffect(() => {
+    let timer;
+    if (showARModal && timeLeft > 0) {
+      timer = setInterval(() => setTimeLeft(prev => prev - 1), 1000);
+    } else if (timeLeft === 0) {
+      handleCloseModal();
+    }
+    return () => clearInterval(timer);
+  }, [showARModal, timeLeft]);
+
+  const handleOpenAR = () => {
+    setTimeLeft(60);
+    setShowARModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowARModal(false);
+  };
+
   const menuItems = [
     { 
       id: 'ar', 
       title: "食事介助 (AR)", 
       desc: "姿勢サポート鏡", 
       icon: <ScanEye className="w-10 h-10" />,
-      action: () => alert("AR接続中...") 
+      action: handleOpenAR 
     },
     { 
       id: 'record', 
@@ -30,7 +51,7 @@ const CareMenuView = ({ onBack, onOpenRecord, onOpenChart, onOpenHandover }) => 
   ];
 
   return (
-    <div className="flex flex-col h-full bg-[#F8FAFC] font-sans animate-in fade-in duration-300">
+    <div className="flex flex-col h-full bg-[#F8FAFC] font-sans animate-in fade-in duration-500 relative">
       
       {/* ヘッダー (Header) */}
       <div className="px-6 py-2 bg-white flex items-center justify-between border-b-2 border-slate-600 shadow-sm">
@@ -73,14 +94,67 @@ const CareMenuView = ({ onBack, onOpenRecord, onOpenChart, onOpenHandover }) => 
         </div>
       </div>
 
-      {/* 申し送りボタン (Nút bàn giao nằm ngoài lưới) */}
-      <div className="px-6 py-4 bg-white border-t border-slate-100 shadow-[0_-10px_20px_rgba(0,0,0,0.02)]">
+      {/* AR QR Code Modal Overlay với hiệu ứng mượt mà */}
+      {showARModal && (
+        <div className="absolute inset-0 z-50 flex items-end justify-center sm:items-center p-4">
+          {/* Lớp nền tối mờ fade-in */}
+          <div 
+            className="absolute inset-0 bg-slate-900/60 backdrop-blur-[2px] animate-in fade-in duration-300"
+            onClick={handleCloseModal}
+          ></div>
+          
+          {/* Hộp thoại trượt từ dưới lên và zoom nhẹ */}
+          <div className="bg-white w-full max-w-sm rounded-[40px] p-8 flex flex-col items-center shadow-2xl relative z-10 animate-in slide-in-from-bottom-10 zoom-in-95 duration-300 ease-out">
+            <button 
+              onClick={handleCloseModal}
+              className="absolute top-6 right-6 p-2 bg-slate-100 hover:bg-slate-200 rounded-full text-slate-400 transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="mb-6 text-center">
+              <h3 className="text-xl font-black text-slate-800 tracking-tighter uppercase">ARグラス連携</h3>
+              <p className="text-[10px] text-slate-400 font-bold tracking-widest uppercase mt-1">AR Glasses Pairing</p>
+            </div>
+
+            {/* Giả lập QR Code */}
+            <div className="relative p-4 bg-white border-4 border-slate-50 rounded-3xl mb-6 shadow-inner">
+              <QrCode className="w-44 h-44 text-slate-800" strokeWidth={1.5} />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-10 h-10 bg-white rounded-xl shadow-lg flex items-center justify-center border border-slate-50">
+                   <ScanEye className="w-5 h-5" style={{ color: brandColor }} />
+                </div>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 mb-6 bg-teal-50/50 px-6 py-2.5 rounded-full border border-teal-100/50">
+              <Loader2 className="w-3.5 h-3.5 animate-spin text-teal-500" />
+              <span className="text-[10px] font-black text-teal-600 uppercase tracking-wider">デバイス待機中...</span>
+            </div>
+
+            <div className="w-full text-center">
+              <p className="text-[9px] text-slate-400 font-black uppercase mb-1">有効期限</p>
+              <div className="text-3xl font-black text-slate-800 tabular-nums">
+                00:{timeLeft < 10 ? `0${timeLeft}` : timeLeft}
+              </div>
+            </div>
+
+            <p className="mt-6 text-[11px] text-slate-400 font-bold text-center leading-relaxed px-4">
+              ARグラスでスキャンして、<br/>
+              <span style={{ color: brandColor }}>「廣瀬 海 様」</span>の介助を開始
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* 申し送りボタン */}
+      <div className="px-6 py-4 bg-white border-t border-slate-100">
         <button 
           onClick={onOpenHandover}
-          className="w-full flex items-center justify-center gap-3 py-5 rounded-2xl font-black text-white shadow-lg active:scale-[0.98] transition-all cursor-pointer overflow-hidden relative group"
+          className="w-full flex items-center justify-center gap-3 py-5 rounded-2xl font-black text-white shadow-lg active:scale-[0.98] transition-all cursor-pointer overflow-hidden"
           style={{ backgroundColor: brandColor }}
         >
-          <SendHorizontal className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+          <SendHorizontal className="w-5 h-5" />
           <div className="flex flex-col items-start leading-none">
             <span className="text-[13px] uppercase tracking-widest">業務申し送り</span>
             <span className="text-[9px] font-bold text-teal-100/80 mt-1 uppercase">データを保存して退室する</span>
@@ -88,7 +162,7 @@ const CareMenuView = ({ onBack, onOpenRecord, onOpenChart, onOpenHandover }) => 
         </button>
       </div>
 
-      {/* フッター (Footer) */}
+      {/* Footer */}
       <div className="px-8 pb-4 pt-2 bg-white flex justify-between items-center">
         <span className="text-[9px] font-black text-slate-300 uppercase tracking-[0.2em]">CareConnect</span>
         <div className="flex items-center gap-2">
