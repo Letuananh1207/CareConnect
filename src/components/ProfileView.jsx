@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ProfileView = () => {
+const ProfileView = ({ onLogout }) => {
   const userInfo = [
     { label: "社員番号", value: "ST-19970101" }, 
     { label: "氏名", value: "上原 小原" },
@@ -53,7 +53,12 @@ const ProfileView = () => {
         <button className="w-full py-4 text-xs font-black text-slate-600 bg-slate-100 rounded-xl active:scale-[0.98] transition-all uppercase tracking-widest cursor-pointer">
           パスワード変更
         </button>
-        <button className="w-full py-4 text-xs font-black text-red-500 border border-red-100 bg-red-50 rounded-xl active:scale-[0.98] transition-all uppercase tracking-widest cursor-pointer">
+        
+        {/* Nút đăng xuất kết nối với logic hệ thống */}
+        <button 
+          onClick={onLogout}
+          className="w-full py-4 text-xs font-black text-red-500 border border-red-100 bg-red-50 rounded-xl active:scale-[0.98] transition-all uppercase tracking-widest cursor-pointer"
+        >
           ログアウト
         </button>
       </div>

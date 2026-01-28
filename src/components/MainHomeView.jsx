@@ -48,9 +48,6 @@ const MainHomeView = ({ onStart, isStarted, onDetail }) => {
         <p className="text-xl font-black text-gray-900 tracking-tighter">
           次回の訪問対象者
         </p>
-        <p className="text-[10px] text-gray-400 font-bold uppercase mt-1 tracking-widest">
-          Next Resident
-        </p>
       </div>
 
       <PatientCard 
