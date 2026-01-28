@@ -24,7 +24,7 @@ const PatientCard = ({ isStarted, onStart, onDetail }) => {
         <img 
           src="/patient_man.jpg" 
           alt="Avatar" 
-          className="w-20 h-20 rounded-lg object-cover border shadow-sm"
+          className="w-20 h-20 rounded-lg object-cover border border-gray-300 shadow-sm"
         />
       </div>
 
