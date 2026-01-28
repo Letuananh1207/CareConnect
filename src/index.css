@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+/* Ẩn thanh cuộn cho mọi trình duyệt */
+.hide-scrollbar {
+  /* Cho Firefox */
+  scrollbar-width: none;
+  
+  /* Cho IE, Edge và các trình duyệt cũ */
+  -ms-overflow-style: none;
+}
+
+/* Cho Chrome, Safari và Opera */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
