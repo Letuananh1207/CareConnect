@@ -10,6 +10,7 @@ import AppointmentSummaryView from './components/AppointmentSummaryView';
 import CareMenuView from './components/CareMenuView';
 import NotificationView from './components/NotificationView';
 import LoginView from './components/LoginView'; 
+import HandoverSummaryView from './components/HandoverSummaryView'; // Import mới
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -19,8 +20,10 @@ function App() {
   const [selectedAppt, setSelectedAppt] = useState(null);
   const [detailSource, setDetailSource] = useState(null); 
   const [isViewingNotifications, setIsViewingNotifications] = useState(false);
+  
+  // MỚI: Trạng thái xem màn hình tóm tắt bàn giao
+  const [isViewingHandover, setIsViewingHandover] = useState(false);
 
-  // 1. Nếu chưa đăng nhập, chỉ render màn hình Login
   if (!isLoggedIn) {
     return (
       <div className="h-screen bg-white max-w-[430px] border mx-auto relative overflow-hidden shadow-2xl">
@@ -30,6 +33,21 @@ function App() {
   }
 
   const renderContent = () => {
+    // 1. Màn hình xác nhận bàn giao (Ưu tiên hiển thị khi nhấn bàn giao nghiệp vụ)
+    if (isViewingHandover) {
+      return (
+        <HandoverSummaryView 
+          onBack={() => setIsViewingHandover(false)} 
+          onConfirm={() => {
+            setIsViewingHandover(false);
+            setIsViewingMenu(false);
+            setIsWorking(false); // Kết thúc trạng thái đang làm việc
+            setActiveTab('home'); // Quay về trang chủ
+          }} 
+        />
+      );
+    }
+
     // 2. Màn hình Thông báo
     if (isViewingNotifications) {
       return <NotificationView onBack={() => setIsViewingNotifications(false)} />;
@@ -54,7 +72,7 @@ function App() {
       );
     }
 
-    // 5. Menu chức năng Nghiệp vụ (CareMenuView)
+    // 5. Menu chức năng Nghiệp vụ
     if (isViewingMenu) {
       return (
         <CareMenuView 
@@ -67,11 +85,8 @@ function App() {
             setDetailSource('menu');
             setIsViewingMenu(false); 
           }}
-          // Thêm prop này nếu bạn muốn xử lý bàn giao ca tại đây
-          onOpenHandover={() => {
-            alert("申し送り画面へ (Chuyển sang màn hình bàn giao)");
-            // setIsViewingHandover(true); 
-          }}
+          // CẬP NHẬT: Mở màn hình tóm tắt bàn giao thay vì alert
+          onOpenHandover={() => setIsViewingHandover(true)}
         />
       );
     }
@@ -90,7 +105,6 @@ function App() {
 
     // 7. Các Tab điều hướng chính
     switch(activeTab) {
-      // CẬP NHẬT: Truyền onLogout vào ProfileView
       case 'profile': 
         return <ProfileView onLogout={() => setIsLoggedIn(false)} />;
       case 'calendar': 
@@ -113,7 +127,8 @@ function App() {
         {renderContent()}
       </main>
       
-      {!isWorking && !detailSource && !selectedAppt && !isViewingMenu && !isViewingNotifications && (
+      {/* Ẩn BottomNav nếu đang ở các màn hình chi tiết hoặc bàn giao */}
+      {!isWorking && !detailSource && !selectedAppt && !isViewingMenu && !isViewingNotifications && !isViewingHandover && (
         <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
       )}
     </div>
