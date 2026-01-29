@@ -26,7 +26,7 @@ function App() {
 
   if (!isLoggedIn) {
     return (
-      <div className="h-screen bg-white max-w-[430px] border mx-auto relative overflow-hidden shadow-2xl">
+      <div className="h-screen bg-white max-w-[430px] mx-auto relative overflow-hidden shadow-2xl">
         <LoginView onLogin={() => setIsLoggedIn(true)} />
       </div>
     );
@@ -120,7 +120,7 @@ function App() {
   };
 
   return (
-    <div className="h-screen bg-white max-w-[430px] border mx-auto relative overflow-hidden flex flex-col shadow-2xl font-sans text-slate-900">
+    <div className="h-screen bg-white max-w-[430px] mx-auto relative overflow-hidden flex flex-col shadow-2xl font-sans text-slate-900">
       <Header onOpenNotifications={() => setIsViewingNotifications(true)} />
       
       <main className="flex-1 overflow-y-auto bg-slate-50 hide-scrollbar">

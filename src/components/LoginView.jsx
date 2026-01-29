@@ -32,7 +32,7 @@ const LoginView = ({ onLogin }) => {
           {/* Nhập mã nhân viên */}
           <div className="space-y-2">
             <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-              社員番号 (Mã nhân viên)
+              社員番号
             </label>
             <div className="relative group">
               <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#75a7a4] transition-colors">
@@ -51,7 +51,7 @@ const LoginView = ({ onLogin }) => {
           {/* Nhập mật khẩu */}
           <div className="space-y-2">
             <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-              パスワード (Mật khẩu)
+              パスワード
             </label>
             <div className="relative group">
               <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#75a7a4] transition-colors">
