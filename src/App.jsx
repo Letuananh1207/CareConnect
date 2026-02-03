@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Header from './components/Header';
 import BottomNav from './components/BottomNav';
 import MainHomeView from './components/MainHomeView';
-import ProfileView from './components/ProfileView';
 import ScheduleView from './components/ScheduleView';
 import CareRecordView from './components/CareRecordView';
 import PatientDetailView from './components/PatientDetailView';
@@ -10,7 +9,11 @@ import AppointmentSummaryView from './components/AppointmentSummaryView';
 import CareMenuView from './components/CareMenuView';
 import NotificationView from './components/NotificationView';
 import LoginView from './components/LoginView'; 
-import HandoverSummaryView from './components/HandoverSummaryView'; // Import mới
+import HandoverSummaryView from './components/HandoverSummaryView';
+import InstructionView from './components/InstructionView';
+import HandoverHistoryView from './components/HandoverHistoryView'; 
+import SettingsView from './components/SettingsView'; 
+
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -20,10 +23,9 @@ function App() {
   const [selectedAppt, setSelectedAppt] = useState(null);
   const [detailSource, setDetailSource] = useState(null); 
   const [isViewingNotifications, setIsViewingNotifications] = useState(false);
-  
-  // MỚI: Trạng thái xem màn hình tóm tắt bàn giao
   const [isViewingHandover, setIsViewingHandover] = useState(false);
 
+  // Xử lý đăng nhập
   if (!isLoggedIn) {
     return (
       <div className="h-screen bg-white max-w-[430px] mx-auto relative overflow-hidden shadow-2xl">
@@ -33,7 +35,8 @@ function App() {
   }
 
   const renderContent = () => {
-    // 1. Màn hình xác nhận bàn giao (Ưu tiên hiển thị khi nhấn bàn giao nghiệp vụ)
+    // --- 1. CÁC MÀN HÌNH ĐÈ LÊN (OVERLAYS / MODAL VIEWS) ---
+    
     if (isViewingHandover) {
       return (
         <HandoverSummaryView 
@@ -41,38 +44,32 @@ function App() {
           onConfirm={() => {
             setIsViewingHandover(false);
             setIsViewingMenu(false);
-            setIsWorking(false); // Kết thúc trạng thái đang làm việc
-            setActiveTab('home'); // Quay về trang chủ
+            setIsWorking(false);
+            setActiveTab('home');
           }} 
         />
       );
     }
 
-    // 2. Màn hình Thông báo
     if (isViewingNotifications) {
       return <NotificationView onBack={() => setIsViewingNotifications(false)} />;
     }
 
-    // 3. Tóm tắt công việc
     if (selectedAppt) {
       return <AppointmentSummaryView appointment={selectedAppt} onBack={() => setSelectedAppt(null)} />;
     }
 
-    // 4. Màn hình Biểu đồ chi tiết
     if (detailSource) {
       return (
         <PatientDetailView 
           onBack={() => {
-            if (detailSource === 'menu') {
-              setIsViewingMenu(true);
-            }
+            if (detailSource === 'menu') setIsViewingMenu(true);
             setDetailSource(null);
           }} 
         />
       );
     }
 
-    // 5. Menu chức năng Nghiệp vụ
     if (isViewingMenu) {
       return (
         <CareMenuView 
@@ -85,13 +82,11 @@ function App() {
             setDetailSource('menu');
             setIsViewingMenu(false); 
           }}
-          // CẬP NHẬT: Mở màn hình tóm tắt bàn giao thay vì alert
           onOpenHandover={() => setIsViewingHandover(true)}
         />
       );
     }
 
-    // 6. Màn hình điền phiếu chăm sóc
     if (isWorking) {
       return (
         <CareRecordView 
@@ -103,19 +98,27 @@ function App() {
       );
     }
 
-    // 7. Các Tab điều hướng chính
+    // --- 2. CÁC TAB CHÍNH (BOTTOM NAV) ---
     switch(activeTab) {
-      case 'profile': 
-        return <ProfileView onLogout={() => setIsLoggedIn(false)} />;
+      case 'history': // Chuyển từ profile sang history
+        return <HandoverHistoryView />;
+      
       case 'calendar': 
         return <ScheduleView onAppointmentClick={(data) => setSelectedAppt(data)} />;
-      default: return (
-        <MainHomeView 
-          isStarted={isWorking} 
-          onStart={() => setIsViewingMenu(true)}
-          onDetail={() => setDetailSource('home')}
-        />
-      );
+      
+      case 'manual': 
+        return <InstructionView />;
+      
+      case 'settings':
+        return <SettingsView />;
+      default: 
+        return (
+          <MainHomeView 
+            isStarted={isWorking} 
+            onStart={() => setIsViewingMenu(true)}
+            onDetail={() => setDetailSource('home')}
+          />
+        );
     }
   };
 
@@ -127,7 +130,6 @@ function App() {
         {renderContent()}
       </main>
       
-      {/* Ẩn BottomNav nếu đang ở các màn hình chi tiết hoặc bàn giao */}
       {!isWorking && !detailSource && !selectedAppt && !isViewingMenu && !isViewingNotifications && !isViewingHandover && (
         <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
       )}

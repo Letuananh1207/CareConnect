@@ -28,20 +28,6 @@ const CareMenuView = ({ onBack, onOpenRecord, onOpenChart, onOpenHandover }) => 
 
   const menuItems = [
     { 
-      id: 'ar', 
-      title: "食事介助 (AR)", 
-      desc: "姿勢サポート鏡", 
-      icon: <ScanEye className="w-10 h-10" />,
-      action: handleOpenAR 
-    },
-    { 
-      id: 'record', 
-      title: "介護記録", 
-      desc: "食事・排泄・水分", 
-      icon: <ClipboardEdit className="w-10 h-10" />,
-      action: onOpenRecord 
-    },
-    { 
       id: 'profile', 
       title: "利用者情報", 
       desc: "基本情報・グラフ", 
@@ -62,8 +48,8 @@ const CareMenuView = ({ onBack, onOpenRecord, onOpenChart, onOpenHandover }) => 
           <ChevronLeft className="w-6 h-6 text-slate-600" />
         </button>
         <div className="text-center">
-          <h2 className="text-[17px] font-black text-slate-600 uppercase tracking-tighter">介護業務メニュー</h2>
-          <p className="text-[11px] text-slate-400 font-bold mt-0.5 uppercase tracking-widest">205B居室 • 廣瀬 海 様</p>
+          <h2 className="text-[17px] font-black text-slate-600 uppercase tracking-tighter">介助ヘルプメニュー</h2>
+          <p className="text-[11px] text-slate-400 font-bold mt-0.5 uppercase tracking-widest">廣瀬 海 様</p>
         </div>
         <div className="w-10"></div>
       </div>

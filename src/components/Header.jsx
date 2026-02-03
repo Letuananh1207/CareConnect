@@ -14,13 +14,13 @@ const Header = ({ onOpenNotifications }) => {
       
       <div className="flex items-center gap-4">
         {/* Nút chuông thông báo */}
-        <button 
+        {/* <button 
           onClick={onOpenNotifications} 
           className="relative cursor-pointer p-1 hover:bg-slate-50 rounded-full transition-colors active:scale-90"
         >
           <Bell className="w-6 h-6 text-gray-600" />
           <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
-        </button>
+        </button> */}
 
         <div className="w-10 h-10 rounded-full overflow-hidden border border-gray-200 shadow-sm cursor-pointer">
           <img src="/kangoshi_female.jpg" alt="User Avatar" className="w-full h-full object-cover" />
