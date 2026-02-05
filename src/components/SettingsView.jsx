@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { 
   UtensilsCrossed, AlertCircle, Glasses, Clock, 
-  Save, Volume2, Accessibility, Settings2
+  Save, Volume2, Accessibility, Settings2,
+  Droplets, Target, Activity
 } from 'lucide-react';
 
 const SettingsView = () => {
@@ -16,23 +17,22 @@ const SettingsView = () => {
   return (
     <div className="flex flex-col h-full bg-slate-50 font-sans animate-in fade-in duration-500">
       
-      {/* Header - Phong cách tiêu đề lớn ban đầu */}
+      {/* Header */}
       <div className="px-8 py-6 bg-white flex items-center border-b border-slate-100 shadow-sm">
         <div className="w-10 h-10 bg-[#75a7a4]/10 rounded-xl flex items-center justify-center mr-4">
           <Settings2 className="w-6 h-6 text-[#75a7a4]" />
         </div>
         <div>
           <h2 className="text-[18px] font-black text-slate-800 uppercase tracking-tighter">設定</h2>
-          <p className="text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em]">Meal Config</p>
+          <p className="text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em]">Meal Assistance Config</p>
         </div>
       </div>
 
       <div className="flex-1 overflow-y-auto px-6 py-8 hide-scrollbar">
         
-        {/* Device Status Card - Bo góc lớn [40px] */}
+        {/* AR Device Status */}
         <div className="mb-8 p-6 bg-white rounded-[40px] shadow-sm border border-slate-100 flex items-center justify-between relative overflow-hidden">
           <div className="absolute top-0 right-0 w-20 h-20 bg-teal-50/50 rounded-full -mr-10 -mt-10"></div>
-          
           <div className="flex items-center gap-4 relative z-10">
             <div className="relative">
               <div className="w-12 h-12 bg-slate-900 rounded-[20px] flex items-center justify-center shadow-lg">
@@ -48,7 +48,45 @@ const SettingsView = () => {
           <button className="relative z-10 text-[10px] font-black text-[#75a7a4] bg-teal-50 px-4 py-2 rounded-xl active:scale-95 transition-transform">切替</button>
         </div>
 
-        {/* Section 1: Safety Config */}
+        {/* Section 1: Expert Technique (Tacit Knowledge) */}
+        <section className="space-y-4 mb-8">
+          <div className="flex items-center gap-2 px-2">
+            <Target className="w-4 h-4 text-[#75a7a4]" />
+            <h3 className="text-[12px] font-black text-slate-400 uppercase tracking-widest">専門技術設定</h3>
+          </div>
+          
+          <div className="bg-white rounded-[40px] p-2 border border-slate-100 shadow-sm">
+            {/* Spoon Angle - Standard is 15 degrees */}
+            <div className="flex items-center justify-between p-5 border-b border-slate-50">
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 bg-teal-50 rounded-2xl flex items-center justify-center text-[#75a7a4]">
+                  <UtensilsCrossed className="w-5 h-5" />
+                </div>
+                <span className="text-[14px] font-black text-slate-700">スプーン角度</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <input type="number" defaultValue={15} className="w-10 text-right text-[16px] font-black text-[#75a7a4] bg-transparent focus:outline-none" />
+                <span className="text-[11px] font-black text-slate-300 uppercase">度</span>
+              </div>
+            </div>
+
+            {/* Hydration Target */}
+            <div className="flex items-center justify-between p-5">
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-500">
+                  <Droplets className="w-5 h-5" />
+                </div>
+                <span className="text-[14px] font-black text-slate-700">水分補給目標</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <input type="number" defaultValue={200} className="w-12 text-right text-[16px] font-black text-blue-500 bg-transparent focus:outline-none" />
+                <span className="text-[11px] font-black text-slate-300 uppercase">ml</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Section 2: Safety Config */}
         <section className="space-y-4 mb-8">
           <div className="flex items-center gap-2 px-2">
             <AlertCircle className="w-4 h-4 text-orange-500" />
@@ -84,18 +122,19 @@ const SettingsView = () => {
           </div>
         </section>
 
-        {/* Section 2: Device Feedback */}
+        {/* Section 3: AR Feedback Features */}
         <section className="space-y-4 mb-10">
           <div className="flex items-center gap-2 px-2">
-            <Volume2 className="w-4 h-4 text-slate-400" />
-            <h3 className="text-[12px] font-black text-slate-400 uppercase tracking-widest">フィードバック</h3>
+            <Activity className="w-4 h-4 text-slate-400" />
+            <h3 className="text-[12px] font-black text-slate-400 uppercase tracking-widest">AR表示・フィードバック</h3>
           </div>
 
           <div className="bg-white rounded-[40px] overflow-hidden border border-slate-100 shadow-sm">
             {[
-              { label: 'バイブレーション警告', active: true },
+              { label: '専門家軌跡の表示', active: true },
               { label: '咀嚼ガイド表示', active: true },
-              { label: '音声ガイダンス', active: false }
+              { label: '嚥下検知アラート', active: true },
+              { label: 'バイブレーション警告', active: false }
             ].map((item, idx, arr) => (
               <div key={idx} className={`p-5 flex items-center justify-between ${idx !== arr.length - 1 ? 'border-b border-slate-50' : ''}`}>
                 <span className="text-[14px] font-black text-slate-700">{item.label}</span>
@@ -107,7 +146,7 @@ const SettingsView = () => {
           </div>
         </section>
 
-        {/* Sync Button - Nút lớn bo góc [26px] đặc trưng */}
+        {/* Sync Button */}
         <div className="px-2">
           <button 
             onClick={handleSync}
@@ -126,7 +165,6 @@ const SettingsView = () => {
           </button>
         </div>
 
-        <div className="h-24"></div>
       </div>
     </div>
   );

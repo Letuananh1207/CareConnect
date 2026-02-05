@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Glasses, Plus, RefreshCw, LayoutGrid, Users, History } from 'lucide-react';
+import { LayoutGrid} from 'lucide-react';
 import PatientCard from './PatientCard';
 import ArPairingModal from './ArPairingModal';
 import PatientScanModal from './PatientScanModal';
@@ -29,6 +29,8 @@ const MainHomeView = ({ onStart, isStarted, onDetail }) => {
           <LayoutGrid className="w-5 h-5" />
         </div>
       </div>
+
+
 
       <div className='flex-1'></div>
       
@@ -63,6 +65,7 @@ const MainHomeView = ({ onStart, isStarted, onDetail }) => {
           setIsPairingOpen(false);
         }}
       />
+
 
       {/* MODAL 2: QUÉT BỆNH NHÂN */}
       <PatientScanModal 

@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { QrCode, X, CheckCircle2, Timer, RefreshCw, Smartphone, ArrowRightLeft } from 'lucide-react';
+// Import hook để điều khiển stage của kính AR
+import { useAR } from '../context/ARContext';
 
 const PatientScanModal = ({ isOpen, onClose, onConfirm }) => {
   const [timeLeft, setTimeLeft] = useState(60);
   const [status, setStatus] = useState('active'); // active -> success
   const brandColor = "#75a7a4";
+  
+  // Lấy hàm setStage từ ARContext
+  const { setStage } = useAR();
 
+  // Quản lý bộ đếm ngược thời hạn mã QR
   useEffect(() => {
     let timer;
     if (isOpen && timeLeft > 0 && status === 'active') {
@@ -14,17 +20,34 @@ const PatientScanModal = ({ isOpen, onClose, onConfirm }) => {
     return () => clearInterval(timer);
   }, [isOpen, timeLeft, status]);
 
-  // Giả lập kết nối thành công sau 4 giây
+  // Giả lập kết nối thành công sau 4 giây (Kính AR vẫn giữ nguyên stage qr_scan)
   useEffect(() => {
     if (isOpen && status === 'active') {
-      const mockScanSuccess = setTimeout(() => setStatus('success'), 4000); 
+      const mockScanSuccess = setTimeout(() => {
+        setStatus('success');
+      }, 4000); 
       return () => clearTimeout(mockScanSuccess);
     }
   }, [isOpen, status]);
 
+  // Hàm xử lý khi nhấn nút xác nhận cuối cùng
+  const handleFinalConfirm = () => {
+    // 1. Chuyển stage trên kính AR sang quét khuôn mặt
+    setStage('face_id'); 
+    
+    // 2. Gọi callback onConfirm để chuyển giao diện Mobile (ví dụ: vào CareRecordView)
+    onConfirm(); 
+    
+    // 3. Reset lại trạng thái modal cho phiên làm việc tiếp theo
+    setStatus('active');
+    setTimeLeft(60);
+  };
+
   const handleClose = () => {
     setTimeLeft(60);
     setStatus('active');
+    // Nếu đóng modal giữa chừng, đưa kính AR về trạng thái chờ đợi
+    setStage('qr_waiting');
     onClose();
   };
 
@@ -53,13 +76,13 @@ const PatientScanModal = ({ isOpen, onClose, onConfirm }) => {
               </div>
             </div>
 
-            <h3 className="text-[15px] font-black text-slate-800 uppercase tracking-widest mb-2">認証が完了しました</h3>
+            <h3 className="text-[15px] font-black text-slate-800 uppercase tracking-widest mb-2 text-center">認証が完了しました</h3>
             <p className="text-[11px] text-slate-500 font-bold text-center mb-10 leading-relaxed px-2">
-              デバイスの同期が完了しました。<br/>ケアを開始できます。
+              デバイスの同期が完了しました。<br/>「ケアを開始する」を押して、顔認証を開始してください。
             </p>
             
             <button 
-              onClick={() => { onConfirm(); setStatus('active'); }}
+              onClick={handleFinalConfirm}
               className="w-full py-4 text-white rounded-[22px] font-black text-[12px] uppercase tracking-[0.15em] active:scale-95 transition-all shadow-lg shadow-teal-100"
               style={{ backgroundColor: brandColor }}
             >
@@ -115,6 +138,9 @@ const PatientScanModal = ({ isOpen, onClose, onConfirm }) => {
         }
         .animate-scan-slow {
           animation: scan-slow 3s linear infinite;
+        }
+        .animate-spin-slow {
+          animation: spin 3s linear infinite;
         }
       `}</style>
     </div>

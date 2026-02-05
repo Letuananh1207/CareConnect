@@ -22,9 +22,9 @@ const Header = ({ onOpenNotifications }) => {
           <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
         </button> */}
 
-        <div className="w-10 h-10 rounded-full overflow-hidden border border-gray-200 shadow-sm cursor-pointer">
+        {/* <div className="w-10 h-10 rounded-full overflow-hidden border border-gray-200 shadow-sm cursor-pointer">
           <img src="/kangoshi_female.jpg" alt="User Avatar" className="w-full h-full object-cover" />
-        </div>
+        </div> */}
       </div>
     </header>
   );

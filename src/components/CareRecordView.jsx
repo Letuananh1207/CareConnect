@@ -17,7 +17,7 @@ const CareRecordView = ({ onBack }) => {
     <div className="px-5 pt-4 pb-10 animate-in slide-in-from-right duration-300 bg-white min-h-full font-sans text-slate-800">
       
       {/* ヘッダー: 戻るボタンとタイトル */}
-      <div className="flex items-center gap-4 mb-6">
+      <div className="flex py-6 items-center gap-4 mb-6">
         <button 
           onClick={onBack} 
           className="p-2 -ml-2 hover:bg-slate-50 rounded-full transition-colors cursor-pointer active:scale-90"

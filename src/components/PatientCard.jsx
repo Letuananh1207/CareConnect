@@ -1,13 +1,28 @@
 import React from 'react';
 import { Activity, Radio, ShieldCheck } from 'lucide-react';
+// 1. Import hook useAR
+import { useAR } from '../context/ARContext'; 
 
 const PatientCard = ({ isStarted, onStart }) => {
   const brandColor = "#75a7a4";
+  
+  // 2. Lấy hàm setStage từ context
+  const { setStage } = useAR();
+
+  // 3. Tạo hàm handler để xử lý cùng lúc nhiều hành động
+  const handleStartClick = () => {
+    // Nếu chưa bắt đầu, thì kích hoạt stage quét QR trên AR
+    if (!isStarted) {
+      setStage('qr_scan');
+    }
+    // Gọi hàm onStart gốc (để mở CareMenuView hoặc Modal trên Mobile)
+    onStart();
+  };
 
   return (
     <div className="mx-8 mt-6"> 
       <button 
-        onClick={onStart}
+        onClick={handleStartClick} // Sử dụng hàm handler mới
         className={`
           w-full py-5 flex items-center justify-center gap-3 
           rounded-[26px] font-[900] text-white shadow-xl
@@ -18,14 +33,14 @@ const PatientCard = ({ isStarted, onStart }) => {
         `}
         style={!isStarted ? { backgroundColor: brandColor } : {}}
       >
-        {/* EFFECT 1: SHINE SWEEP - Vệt sáng lướt qua định kỳ */}
+        {/* EFFECT 1: SHINE SWEEP */}
         {!isStarted && (
           <div className="absolute inset-0 w-full h-full">
             <div className="absolute top-0 -left-[100%] w-1/2 h-full bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-[-25deg] animate-shine" />
           </div>
         )}
 
-        {/* EFFECT 2: RIPPLE PULSE - Vòng tròn lan tỏa ngầm */}
+        {/* EFFECT 2: RIPPLE PULSE */}
         {!isStarted && (
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="w-20 h-20 bg-white/10 rounded-full animate-ping opacity-20" />
@@ -38,7 +53,6 @@ const PatientCard = ({ isStarted, onStart }) => {
           ) : (
             <div className="relative">
                <Activity className="w-5 h-5 text-white" strokeWidth={3} />
-               {/* Chấm xanh nhỏ báo hiệu sẵn sàng */}
                <div className="absolute -top-1 -right-1 w-2 h-2 bg-emerald-300 rounded-full border-2 border-[#75a7a4] animate-bounce" />
             </div>
           )}
@@ -57,7 +71,6 @@ const PatientCard = ({ isStarted, onStart }) => {
           strokeWidth={3} 
         />
 
-        {/* CSS Animations */}
         <style jsx>{`
           @keyframes shine {
             0% { left: -100%; }
