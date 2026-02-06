@@ -23,7 +23,7 @@ const Header = ({ onOpenNotifications }) => {
         </button> */}
 
         {/* <div className="w-10 h-10 rounded-full overflow-hidden border border-gray-200 shadow-sm cursor-pointer">
-          <img src="/kangoshi_female.jpg" alt="User Avatar" className="w-full h-full object-cover" />
+          <img src="/kangoshi_female.webp" alt="User Avatar" className="w-full h-full object-cover" />
         </div> */}
       </div>
     </header>

@@ -20,7 +20,7 @@ const ProfileView = ({ onLogout }) => {
       <div className="flex flex-col items-center mb-8 bg-slate-50 p-6 rounded-3xl border border-slate-100 shadow-inner">
         <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-md mb-4">
           <img 
-            src="/kangoshi_female.jpg" 
+            src="/kangoshi_female.webp" 
             alt="スタッフアバター" 
             className="w-full h-full object-cover" 
           />

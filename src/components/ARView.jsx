@@ -78,14 +78,14 @@ const ARView = () => {
           ${(stage === 'qr_waiting' || stage === 'qr_scan') 
             ? 'translate-y-0 opacity-40 blur-0' 
             : 'translate-y-full opacity-0 blur-md'}`}>
-          <img src="/standby-bg.jpg" className="w-full h-full object-cover" alt="待機画面" />
+          <img src="/standby-bg.webp" className="w-full h-full object-cover" alt="待機画面" />
         </div>
         
         <div className={`absolute inset-0 transition-all duration-[1200ms] cubic-bezier(0.23, 1, 0.32, 1)
           ${(stage === 'qr_waiting' || stage === 'qr_scan') 
             ? 'translate-y-[-30%] opacity-0 scale-110 blur-xl' 
             : 'translate-y-0 opacity-100 scale-100 blur-0'}`}> 
-          <img src="/background.jpg" className="w-full h-full object-cover" alt="患者ビュー" />
+          <img src="/background.webp" className="w-full h-full object-cover" alt="患者ビュー" />
         </div>
       </div>
 
@@ -198,7 +198,7 @@ const ARView = () => {
           <div className="bg-zinc-900/95 p-8 rounded-[40px] border border-[#75a7a4]/40 text-center max-w-sm w-full shadow-2xl backdrop-blur-md">
             <div className="relative w-20 h-20 mx-auto mb-5">
               <div className="w-full h-full rounded-full border-2 border-[#75a7a4] overflow-hidden p-1 bg-black">
-                <img src="/patient_man.jpg" alt="プロフィール" className="w-full h-full rounded-full object-cover" />
+                <img src="/patient_man.webp" alt="プロフィール" className="w-full h-full rounded-full object-cover" />
               </div>
               <div className="absolute -bottom-1 -right-1 bg-emerald-500 rounded-full p-2">
                 <UserCheck size={12} className="text-white" />

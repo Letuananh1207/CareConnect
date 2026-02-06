@@ -10,7 +10,7 @@ const AppointmentSummaryView = ({ appointment, onBack }) => {
     nickname: "海さん",
     age: 76,
     gender: "男性",
-    avatarUrl: "/patient_man.jpg", 
+    avatarUrl: "/patient_man.webp", 
     roomType: "個室 (スタンダード)",
   };
 

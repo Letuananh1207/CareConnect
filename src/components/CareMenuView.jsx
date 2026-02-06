@@ -103,7 +103,7 @@ const CareMenuView = ({ onBack, onOpenRecord, onOpenChart, onOpenHandover }) => 
                 <div className="relative z-10 flex items-center gap-5">
                   <div className="w-[72px] h-[72px] p-1 bg-white rounded-[24px] shadow-sm border border-slate-100 shrink-0">
                     <div className="w-full h-full rounded-[20px] overflow-hidden bg-slate-50 relative">
-                      <img src="/patient_man.jpg" alt="Patient" className="w-full h-full object-cover" />
+                      <img src="/patient_man.webp" alt="Patient" className="w-full h-full object-cover" />
                     </div>
                   </div>
                   <div className="flex flex-col gap-1.5">

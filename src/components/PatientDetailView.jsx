@@ -83,7 +83,7 @@ const PatientDetailView = ({ onBack }) => {
             </div>
           </div>
         </div>
-        <img src="/patient_man.jpg" alt="Patient" className="w-20 h-20 rounded-xl object-cover border-2 border-slate-50 shadow-md grayscale-[0.1]" />
+        <img src="/patient_man.webp" alt="Patient" className="w-20 h-20 rounded-xl object-cover border-2 border-slate-50 shadow-md grayscale-[0.1]" />
       </div>
 
       {/* アレルギー・趣味 (Dị ứng & Sở thích) */}
