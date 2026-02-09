@@ -1,5 +1,5 @@
 import React from 'react';
-import { Activity, AlertTriangle, ChevronLeft, Info, Heart, ShieldAlert, Calendar, MapPin } from 'lucide-react';
+import { Activity, AlertTriangle, ChevronLeft, Info, Heart, ShieldAlert, Calendar, MapPin, ClipboardList } from 'lucide-react';
 
 const PatientDetailView = ({ onBack }) => {
   const brandColor = "#75a7a4";
@@ -24,7 +24,8 @@ const PatientDetailView = ({ onBack }) => {
     kaigodo: "要介護 2", 
     bloodType: "O型",
     conditions: ["高血圧", "軽度認知症"],
-    interests: ["演歌鑑賞", "園芸"],
+    // Thay đổi từ interests sang medicalHistory
+    medicalHistory: ["脳梗塞 (2020年)", "白内障手術"], 
     dietaryNote: "軟食、細刻み。嚥下困難のため、水分摂取時のむせに注意が必要。",
     behaviorNote: "夕暮れ症候群による夕方の見当識障害あり。",
     allergies: ["えび", "花粉"],
@@ -42,7 +43,7 @@ const PatientDetailView = ({ onBack }) => {
         <h2 className="text-xl font-black uppercase tracking-tight text-slate-700">利用者詳細情報</h2>
       </div>
 
-      {/* 安全警告 (Cảnh báo an toàn) */}
+      {/* 安全警告 (Risk Alert) */}
       <div className="mb-6 bg-red-50 border-l-4 border-red-500 p-3 rounded-r-xl flex items-center gap-3">
         <AlertTriangle className="w-5 h-5 text-red-500 shrink-0" />
         <div>
@@ -51,7 +52,7 @@ const PatientDetailView = ({ onBack }) => {
         </div>
       </div>
 
-      {/* 基本情報カード (Thẻ thông tin cơ bản) */}
+      {/* 基本情報カード (Basic Info) */}
       <div className="border border-slate-200 rounded-2xl p-5 bg-white shadow-sm flex gap-4 items-start relative overflow-hidden">
         <div className="flex-1 space-y-4">
           <div>
@@ -86,7 +87,7 @@ const PatientDetailView = ({ onBack }) => {
         <img src="/patient_man.webp" alt="Patient" className="w-20 h-20 rounded-xl object-cover border-2 border-slate-50 shadow-md grayscale-[0.1]" />
       </div>
 
-      {/* アレルギー・趣味 (Dị ứng & Sở thích) */}
+      {/* アレルギー・既往歴 (Allergy & Medical History) */}
       <div className="mt-6 grid grid-cols-1 gap-3">
         <div className="flex gap-3">
           <div className="flex-1 bg-white border border-slate-100 p-3 rounded-2xl shadow-sm">
@@ -96,17 +97,19 @@ const PatientDetailView = ({ onBack }) => {
             </div>
             <p className="text-xs font-bold text-slate-700">{patientInfo.allergies.join("、 ")}</p>
           </div>
+          
+          {/* PHẦN ĐÃ THAY ĐỔI: SỞ THÍCH -> TIỀN SỬ BỆNH LÝ */}
           <div className="flex-1 bg-white border border-slate-100 p-3 rounded-2xl shadow-sm">
             <div className="flex items-center gap-2 mb-1">
-              <Heart className="w-3 h-3 text-pink-400" />
-              <p className="text-[9px] text-slate-400 font-black uppercase tracking-widest">趣味・嗜好</p>
+              <ClipboardList className="w-3 h-3 text-blue-400" />
+              <p className="text-[9px] text-slate-400 font-black uppercase tracking-widest">既往歴</p>
             </div>
-            <p className="text-xs font-bold text-slate-700">{patientInfo.interests.join("、 ")}</p>
+            <p className="text-xs font-bold text-slate-700">{patientInfo.medicalHistory.join("、 ")}</p>
           </div>
         </div>
       </div>
 
-      {/* 食事摂取量トレンド (Biểu đồ xu hướng lượng ăn) */}
+      {/* 食事摂取量トレンド (Feeding Trend) */}
       <div className="mt-8">
         <div className="flex items-center gap-2 mb-3">
           <Activity className="w-5 h-5" style={{ color: brandColor }} />
@@ -134,7 +137,7 @@ const PatientDetailView = ({ onBack }) => {
         </div>
       </div>
 
-      {/* 食事介助の指示 (Chỉ dẫn dinh dưỡng) */}
+      {/* 食事介助の指示 (Dietary Instructions) */}
       <div className="mt-6 p-4 rounded-2xl border" style={{ backgroundColor: '#f1f7f7', borderColor: brandColor }}>
         <p className="text-[10px] font-black uppercase mb-1" style={{ color: brandColor }}>食事介助の注意事項</p>
         <p className="text-xs leading-relaxed text-slate-700 font-bold">{patientInfo.dietaryNote}</p>

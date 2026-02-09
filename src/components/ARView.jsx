@@ -7,8 +7,7 @@ import { useAR } from '../context/ARContext';
 const ARView = () => {
   const { stage, setStage } = useAR(); 
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [isPressed, setIsPressed] = useState(false);
-  const [spoonAngle, setSpoonAngle] = useState(0);
+  const [spoonAngle, setSpoonAngle] = useState(0); // Góc thìa mặc định là 0
   const [isHovering, setIsHovering] = useState(false);
   const [time, setTime] = useState(new Date());
 
@@ -26,14 +25,26 @@ const ARView = () => {
     }
   }, [stage, setStage]);
 
+  // Xử lý điều chỉnh góc thìa bằng phím lên/xuống
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (stage !== 'feeding') return;
+
+      if (e.key === 'ArrowUp') {
+        setSpoonAngle(prev => Math.min(prev + 5, 90)); // Tăng góc, tối đa 90 độ
+      } else if (e.key === 'ArrowDown') {
+        setSpoonAngle(prev => Math.max(prev - 5, 0));  // Giảm góc, tối thiểu 0 độ
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [stage]);
+
   const handleMouseMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
     setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
   };
-
-  useEffect(() => {
-    setSpoonAngle(isPressed ? 35 : 0);
-  }, [isPressed]);
 
   const glowStyle = { filter: 'drop-shadow(0 0 12px #75a7a4) drop-shadow(0 0 2px #75a7a4)' };
 
@@ -42,9 +53,7 @@ const ARView = () => {
       className={`relative w-full h-screen bg-black overflow-hidden font-sans text-white ${stage === 'feeding' ? 'cursor-none' : ''}`}
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => { setIsHovering(false); setIsPressed(false); }}
-      onMouseDown={() => stage === 'feeding' && setIsPressed(true)}
-      onMouseUp={() => setIsPressed(false)}
+      onMouseLeave={() => setIsHovering(false)}
     >
       
       {/* === AR SYSTEM STATUS BAR === */}
@@ -122,42 +131,34 @@ const ARView = () => {
           </div>
         </div>
       )}
-      {/* STAGE: FACE ID - HUD OVERLAY (日本語版 - 介護者向け) */}
+      {/* STAGE: FACE ID - HUD OVERLAY */}
       {stage === 'face_id' && (
         <div className="absolute inset-0 z-50 flex flex-col items-center justify-center pointer-events-none">
           
-          {/* 1. スキャン枠 (Khung nhận diện) - 視認性を高めるための太いコーナー */}
+          {/* 1. スキャン枠 */}
           <div className="relative w-[320px] h-[420px]">
-              {/* 四隅のガイド */}
               <div className="absolute top-0 left-0 w-12 h-12 border-t-4 border-l-4 border-[#75a7a4] rounded-tl-2xl shadow-[0_0_20px_rgba(117,167,164,0.4)]" />
               <div className="absolute top-0 right-0 w-12 h-12 border-t-4 border-r-4 border-[#75a7a4] rounded-tr-2xl shadow-[0_0_20px_rgba(117,167,164,0.4)]" />
               <div className="absolute bottom-0 left-0 w-12 h-12 border-b-4 border-l-4 border-[#75a7a4] rounded-bl-2xl shadow-[0_0_20px_rgba(117,167,164,0.4)]" />
               <div className="absolute bottom-0 right-0 w-12 h-12 border-b-4 border-r-4 border-[#75a7a4] rounded-br-2xl shadow-[0_0_20px_rgba(117,167,164,0.4)]" />
-              
-              {/* スキャンライン (Hiệu ứng quét radar mặt) */}
               <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#75a7a4]/15 to-transparent animate-[scanLine_3s_infinite]" />
           </div>
 
-          {/* 2. メイン指示 (Chỉ dẫn chính - Center Bottom) */}
+          {/* 2. メイン指示 */}
           <div className="mt-14 flex flex-col items-center gap-5">
               <div className="bg-black/70 backdrop-blur-2xl px-12 py-5 rounded-[24px] border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
                 <div className="flex items-center gap-5">
-                  {/* 進行中のインジケーター */}
                   <div className="w-7 h-7 border-[3px] border-[#75a7a4]/20 border-t-[#75a7a4] rounded-full animate-spin" />
-                  
                   <div className="flex flex-col">
                     <span className="text-white font-black text-xl tracking-tight">本人確認中...</span>
                     <span className="text-[#75a7a4] text-[11px] font-bold tracking-wider">顔を枠内に収めてください</span>
                   </div>
                 </div>
-                
-                {/* プログレスバー (Thanh tiến trình) */}
                 <div className="mt-5 h-2 w-full bg-white/10 rounded-full overflow-hidden">
                   <div className="h-full bg-[#75a7a4] shadow-[0_0_15px_#75a7a4] animate-[progress_4.5s_linear]" />
                 </div>
               </div>
 
-              {/* 3. 安全通知 (Thông báo an toàn phụ) */}
               <div className="flex items-center gap-2 text-white/40 text-[10px] font-bold bg-white/5 px-5 py-1.5 rounded-full border border-white/5 tracking-widest">
                 <ShieldCheck size={14} className="opacity-60" />
                 <span>システムが自動的に患者様を識別しています</span>
@@ -166,7 +167,7 @@ const ARView = () => {
 
         </div>
       )}
-      {/* STAGE: QR WAITING (Đã bỏ onClick để quét tự động từ App) */}
+      {/* STAGE: QR WAITING */}
       {stage === 'qr_waiting' && (
         <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-black/20 pointer-events-none group">
           <div className="relative w-80 h-80 flex items-center justify-center">
@@ -211,22 +212,20 @@ const ARView = () => {
         </div>
       )}
 
-    {/* STAGE: FEEDING - Giao diện hỗ trợ y tá */}
+    {/* STAGE: FEEDING */}
     {stage === 'feeding' && isHovering && (
       <div className="absolute inset-0 pointer-events-none animate-in fade-in duration-700">
         
-        {/* GÓC TRÁI TRÊN: GIÁM SÁT TƯ THẾ & NHỊP ĐỘ (Thông tin cố định) */}
+        {/* GÓC TRÁI TRÊN */}
         <div className="absolute top-20 left-10 z-20 space-y-4">
-          {/* 1. Tư thế bệnh nhân (Patient Position) */}
           <div className="bg-black/60 backdrop-blur-md border-l-4 border-emerald-500 pl-4 py-2 w-48">
             <p className="text-[10px] text-emerald-500 font-bold tracking-widest uppercase">姿勢検知 / POSTURE</p>
             <div className="flex items-baseline gap-2">
               <span className="text-2xl font-black text-white">65°</span>
-              <span className="text-[10px] text-white/60">良好 (Chuẩn)</span>
+              <span className="text-[10px] text-white/60">良好</span>
             </div>
           </div>
 
-          {/* 2. Nhịp độ ăn (Feeding Pace) */}
           <div className="bg-black/60 backdrop-blur-md border-l-4 border-[#75a7a4] pl-4 py-2 w-48">
             <p className="text-[10px] text-[#75a7a4] font-bold tracking-widest uppercase">次回のスプーン / PACE</p>
             <div className="flex items-center gap-3">
@@ -236,19 +235,17 @@ const ARView = () => {
           </div>
         </div>
 
-        {/* GÓC PHẢI TRÊN: CẢNH BÁO GIỌNG NÓI & VỊ TRÍ ĐỨNG */}
+        {/* GÓC PHẢI TRÊN */}
         <div className="absolute top-20 right-10 z-20 space-y-4 text-right">
-          {/* 3. Thời điểm nói chuyện (Communication) */}
           <div className="bg-rose-500/20 backdrop-blur-md border-r-4 border-rose-500 pr-4 py-2 ml-auto w-40">
             <p className="text-[10px] text-rose-500 font-bold uppercase">発話ガイド</p>
             <p className="text-sm font-black text-white">今は静かに (Im lặng)</p>
           </div>
         </div>
 
-        {/* TẠI VỊ TRÍ CON TRỎ (THÌA): GÓC ĐỘ & LƯỢNG THỨC ĂN */}
+        {/* TẠI VỊ TRÍ CON TRỎ (THÌA) */}
         <div className="absolute z-40 transition-all duration-75" style={{ left: mousePos.x, top: mousePos.y, transform: 'translate(-50%, -50%)' }}>
           <div className="relative">
-            {/* Chỉ số góc độ thìa hiện ngay cạnh tay cầm */}
             <div className="absolute -top-16 -left-4 bg-black/80 px-2 py-1 rounded border border-[#75a7a4] flex flex-col items-center">
               <span className="text-[8px] text-[#75a7a4] font-bold">ANGLE</span>
               <span className={`text-sm font-black ${spoonAngle > 45 ? 'text-rose-500' : 'text-white'}`}>
@@ -256,13 +253,11 @@ const ARView = () => {
               </span>
             </div>
 
-            {/* Chỉ số Lượng thức ăn (Volume) */}
             <div className="absolute -bottom-10 left-10 flex items-center gap-2 bg-emerald-500 px-3 py-1 rounded-full shadow-lg">
               <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
               <span className="text-[10px] font-black text-white uppercase tracking-tighter">Volume OK (8g)</span>
             </div>
 
-            {/* Spoon & Hand Graphics */}
             <img 
               src="/spoon.png" 
               className="absolute z-50 transition-transform duration-150" 
@@ -291,10 +286,6 @@ const ARView = () => {
         @keyframes handEnter {
           0% { transform: translateY(400px) scale(0.8); opacity: 0; }
           100% { transform: translateY(0) scale(1); opacity: 1; }
-        }
-        @keyframes hudSpin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
         }
         @keyframes progress {
           0% { width: 0%; }

@@ -22,14 +22,14 @@ const ArPairingModal = ({ isOpen, onClose, onConfirm, currentDevice, onDisconnec
         </button>
 
         {currentDevice ? (
-          /* TRẠNG THÁI: ĐÃ KẾT NỐI - HIỆN THÔNG TIN & HỦY */
+          /* TRẠNG THÁI: ĐÃ KẾT NỐI (接続済み) */
           <div className="flex flex-col items-center animate-in zoom-in-95 duration-300">
             <div className="w-16 h-16 bg-[#75a7a4]/10 rounded-[24px] flex items-center justify-center mb-4 relative">
               <Glasses className="w-8 h-8 text-[#75a7a4]" />
               <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-teal-500 border-2 border-white rounded-full"></div>
             </div>
             
-            <h3 className="text-[14px] font-black text-slate-800 uppercase tracking-widest mb-1">Thiết bị hiện tại</h3>
+            <h3 className="text-[14px] font-black text-slate-800 uppercase tracking-widest mb-1">現在のデバイス</h3>
             <p className="text-[12px] font-bold text-slate-500 mb-8">{currentDevice}</p>
 
             <div className="w-full space-y-3">
@@ -37,7 +37,7 @@ const ArPairingModal = ({ isOpen, onClose, onConfirm, currentDevice, onDisconnec
                 onClick={onClose}
                 className="w-full py-3.5 bg-slate-50 text-slate-600 rounded-2xl font-black text-[11px] uppercase tracking-widest active:scale-95 transition-all border border-slate-100"
               >
-                Đóng
+                閉じる
               </button>
               
               <button 
@@ -48,29 +48,29 @@ const ArPairingModal = ({ isOpen, onClose, onConfirm, currentDevice, onDisconnec
                 className="w-full py-3.5 bg-rose-50 text-rose-500 rounded-2xl font-black text-[11px] uppercase tracking-widest active:scale-95 transition-all flex items-center justify-center gap-2 border border-rose-100"
               >
                 <Link2Off className="w-4 h-4" />
-                Hủy kết nối
+                接続を解除する
               </button>
             </div>
           </div>
         ) : (
-          /* TRẠNG THÁI: CHƯA KẾT NỐI - HIỆN QR ĐỂ QUÉT */
+          /* TRẠNG THÁI: CHƯA KẾT NỐI (未接続) */
           <div className="animate-in zoom-in-95 duration-300">
             <div className="flex flex-col items-center mb-6 text-center">
               <div className="w-12 h-12 bg-teal-50 rounded-2xl flex items-center justify-center mb-3">
                 <Scan className="w-6 h-6 text-[#75a7a4]" />
               </div>
               <h3 className="text-[13px] font-black text-slate-800 uppercase tracking-widest">デバイス接続</h3>
-              <p className="text-[9px] text-slate-400 font-bold uppercase mt-1">Kết nối kính AR</p>
+              <p className="text-[9px] text-[#75a7a4] font-bold uppercase mt-1">ARグラス連携</p>
             </div>
 
             <div className="relative p-3 bg-slate-50 rounded-[28px] border border-slate-100 flex justify-center overflow-hidden shadow-inner cursor-pointer" 
-                 onClick={() => onConfirm("AR-Glass v2")}>
+                  onClick={() => onConfirm("AR-Glass v2")}>
               <QrCode className="w-36 h-36 text-slate-800 opacity-90" strokeWidth={1.5} />
               <div className="absolute inset-x-0 top-0 h-[2px] bg-[#75a7a4] shadow-[0_0_10px_#75a7a4] animate-[scan_2s_linear_infinite]" />
             </div>
             
             <p className="text-[10px] text-center text-slate-400 font-bold mt-6 leading-relaxed">
-              Dùng kính AR quét mã QR này<br/>để bắt đầu đồng bộ
+              ARグラスでこのQRコードを<br/>スキャンして同期を開始します
             </p>
           </div>
         )}
