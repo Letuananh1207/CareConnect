@@ -239,7 +239,7 @@ const ARView = () => {
         <div className="absolute top-20 right-10 z-20 space-y-4 text-right">
           <div className="bg-rose-500/20 backdrop-blur-md border-r-4 border-rose-500 pr-4 py-2 ml-auto w-40">
             <p className="text-[10px] text-rose-500 font-bold uppercase">発話ガイド</p>
-            <p className="text-sm font-black text-white">今は静かに (Im lặng)</p>
+            <p className="text-sm font-black text-white">今は静かに</p>
           </div>
         </div>
 
@@ -255,7 +255,7 @@ const ARView = () => {
 
             <div className="absolute -bottom-10 left-10 flex items-center gap-2 bg-emerald-500 px-3 py-1 rounded-full shadow-lg">
               <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
-              <span className="text-[10px] font-black text-white uppercase tracking-tighter">Volume OK (8g)</span>
+              <span className="text-[10px] font-black text-white uppercase tracking-tighter">摂取量 適正 (8g)</span>
             </div>
 
             <img 
