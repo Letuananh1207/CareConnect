@@ -20,11 +20,11 @@ const HandoverSummaryView = ({ onBack, onConfirm }) => {
   return (
     <div className="flex flex-col h-full bg-slate-50 font-sans animate-in slide-in-from-right duration-300">
       {/* Header */}
-      <div className="px-6 py-4 bg-white border-b border-slate-100 flex items-center gap-4">
+      <div className="px-6 py-10 bg-white border-b border-slate-100 flex items-center gap-4">
         <button onClick={onBack} className="p-2 -ml-2 hover:bg-slate-50 rounded-full transition-all">
           <ChevronLeft className="w-6 h-6 text-slate-400" />
         </button>
-        <h2 className="text-lg font-black text-slate-800 uppercase tracking-tighter">業務申し送り確認</h2>
+        <h2 className="text-xl font-black text-slate-800 uppercase tracking-tighter">業務申し送り確認</h2>
       </div>
 
       <div className="flex-1 overflow-y-auto p-6 space-y-6">
