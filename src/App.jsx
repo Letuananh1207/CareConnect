@@ -105,8 +105,6 @@ function AppContent() {
     }
 
     switch(activeTab) {
-      case 'history': return <HandoverHistoryView />;
-      case 'calendar': return <ScheduleView onAppointmentClick={(data) => setSelectedAppt(data)} />;
       case 'manual': return <InstructionView />;
       case 'settings': return <SettingsView />;
       default: 

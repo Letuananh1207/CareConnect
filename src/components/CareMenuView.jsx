@@ -14,7 +14,7 @@ const CareMenuView = ({ onBack, onOpenRecord, onOpenChart, onOpenHandover }) => 
   const [careMinutes, setCareMinutes] = useState(0);
 
   // Kiểm tra xem đã qua bước xác thực chưa
-  const isAuthorized = stage === 'ready' || stage === 'feeding';
+  const isAuthorized = stage === 'ready' || stage === 'feeding' || stage === 'not_connecting';
 
   useEffect(() => {
     const careTimer = setInterval(() => {
@@ -46,7 +46,7 @@ const CareMenuView = ({ onBack, onOpenRecord, onOpenChart, onOpenHandover }) => 
     <div className="py-6 flex flex-col h-full bg-[#FBFDFF] font-sans animate-in fade-in duration-500 relative overflow-hidden">
       
       {/* Header */}
-      <div className="px-6 pt-3 pb-5 bg-white flex items-center justify-between border-b border-slate-50 shadow-sm relative z-20">
+      <div className="px-6 pb-5 bg-white flex items-center justify-between border-b border-slate-50 shadow-sm relative z-20">
         <button 
           onClick={handleBackRequest} 
           className="p-2.5 -ml-2 hover:bg-slate-50 active:scale-90 rounded-[18px] transition-all border border-slate-100 text-slate-400"

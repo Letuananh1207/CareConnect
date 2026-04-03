@@ -11,10 +11,6 @@ const PatientCard = ({ isStarted, onStart }) => {
 
   // 3. Tạo hàm handler để xử lý cùng lúc nhiều hành động
   const handleStartClick = () => {
-    // Nếu chưa bắt đầu, thì kích hoạt stage quét QR trên AR
-    if (!isStarted) {
-      setStage('qr_scan');
-    }
     // Gọi hàm onStart gốc (để mở CareMenuView hoặc Modal trên Mobile)
     onStart();
   };

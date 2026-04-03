@@ -84,14 +84,14 @@ const ARView = () => {
       {/* 1. HỆ THỐNG NỀN ĐỘNG */}
       <div className="absolute inset-0 z-0">
         <div className={`absolute inset-0 transition-all duration-[1000ms] ease-in
-          ${(stage === 'qr_waiting' || stage === 'qr_scan') 
+          ${(stage === 'qr_waiting' || stage === 'qr_scan' || stage === 'not_connecting') 
             ? 'translate-y-0 opacity-40 blur-0' 
             : 'translate-y-full opacity-0 blur-md'}`}>
           <img src="/standby-bg.webp" className="w-full h-full object-cover" alt="待機画面" />
         </div>
         
         <div className={`absolute inset-0 transition-all duration-[1200ms] cubic-bezier(0.23, 1, 0.32, 1)
-          ${(stage === 'qr_waiting' || stage === 'qr_scan') 
+          ${(stage === 'qr_waiting' || stage === 'qr_scan' || stage === 'not_connecting') 
             ? 'translate-y-[-30%] opacity-0 scale-110 blur-xl' 
             : 'translate-y-0 opacity-100 scale-100 blur-0'}`}> 
           <img src="/background.webp" className="w-full h-full object-cover" alt="患者ビュー" />
@@ -167,8 +167,8 @@ const ARView = () => {
 
         </div>
       )}
-      {/* STAGE: QR WAITING */}
-      {stage === 'qr_waiting' && (
+      {/* STAGE: QR WAITING HOẶC NOT CONNECTING */}
+      {(stage === 'qr_waiting' || stage === 'not_connecting') && (
         <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-black/20 pointer-events-none group">
           <div className="relative w-80 h-80 flex items-center justify-center">
             <div className="absolute top-0 left-0 w-12 h-12 border-t-4 border-l-4 border-[#75a7a4] rounded-tl-3xl opacity-50" />

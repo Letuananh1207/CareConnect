@@ -3,7 +3,7 @@ import React, { createContext, useState, useContext } from 'react';
 const ARContext = createContext();
 
 export const ARProvider = ({ children }) => {
-  // Trạng thái chung: 'qr_waiting', 'qr_scan', 'face_id', 'ready', 'feeding'
+  // Trạng thái chung: 'not_connecting','qr_waiting', 'qr_scan', 'face_id', 'ready', 'feeding'
   const [stage, setStage] = useState('qr_waiting');
 
   return (
