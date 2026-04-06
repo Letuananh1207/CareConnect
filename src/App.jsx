@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
 import BottomNav from './components/BottomNav';
-import MainHomeView from './components/MainHomeView';
-import ScheduleView from './components/ScheduleView';
-import CareRecordView from './components/CareRecordView';
-import PatientDetailView from './components/PatientDetailView';
-import AppointmentSummaryView from './components/AppointmentSummaryView';
-import CareMenuView from './components/CareMenuView';
-import NotificationView from './components/NotificationView';
-import LoginView from './components/LoginView'; 
-import HandoverSummaryView from './components/HandoverSummaryView';
-import InstructionView from './components/InstructionView';
-import HandoverHistoryView from './components/HandoverHistoryView'; 
-import SettingsView from './components/SettingsView'; 
-import ARView from './components/ARView';
+import MainHomeView from './views/MainHomeView';
+import CareRecordView from './views/CareRecordView';
+import PatientDetailView from './views/PatientDetailView';
+import AppointmentSummaryView from './views/AppointmentSummaryView';
+import CareMenuView from './views/CareMenuView';
+import NotificationView from './views/NotificationView';
+import LoginView from './views/LoginView'; 
+import HandoverSummaryView from './views/HandoverSummaryView';
+import InstructionView from './views/InstructionView';
+import SettingsView from './views/SettingsView'; 
+import ArStatusView from './views/ArStatusView';
+import ARView from './views/ARView';
 // Import context
 import { ARProvider, useAR } from './context/ARContext';
 
@@ -107,6 +106,7 @@ function AppContent() {
     switch(activeTab) {
       case 'manual': return <InstructionView />;
       case 'settings': return <SettingsView />;
+      case 'ar_status': return <ArStatusView/>;
       default: 
         return (
           <MainHomeView 

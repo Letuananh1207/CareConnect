@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { LayoutGrid } from 'lucide-react';
-import PatientCard from './PatientCard';
-import ArPairingModal from './ArPairingModal';
-import PatientScanModal from './PatientScanModal';
-import CareModeSelectionModal from './CareModeSelectionModal';
-import PatientFaceAuthModal from './PatientFaceAuthModal'; // Import modal xác thực khuôn mặt
+import PatientCard from '../components/PatientCard';
+import ArPairingModal from '../components/ArPairingModal';
+import PatientScanModal from '../components/PatientScanModal';
+import CareModeSelectionModal from '../components/CareModeSelectionModal';
+import PatientFaceAuthModal from '../components/PatientFaceAuthModal'; // Import modal xác thực khuôn mặt
 
 const MainHomeView = ({ onStart, isStarted, onDetail }) => {
   const [isPairingOpen, setIsPairingOpen] = useState(false);
