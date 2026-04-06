@@ -4,7 +4,6 @@ import {
   Smartphone, Glasses, HelpCircle, Link, ChevronDown,
   ClipboardEdit, // Icon cho ghi chép nhật ký
   Stethoscope,   // Icon cho thực hiện chuyên môn/chăm sóc
-  MessageCircleQuestion // Icon cho câu hỏi Q&A
 } from 'lucide-react';
 
 const InstructionView = () => {
@@ -16,7 +15,7 @@ const InstructionView = () => {
       id: 1,
       icon: <QrCode className="w-6 h-6" />,
       title: "手順 1：ARグラスの接続",
-      desc: "アプリに表示されたQRコードをARグラスでスキャンし, デバイス間のペアリングを確立します。"
+      desc: "アプリに表示されたQRコード Core ARグラスでスキャンし, デバイス間のペアリングを確立します。"
     },
     {
       id: 2,
@@ -49,14 +48,19 @@ const InstructionView = () => {
       <div className="flex-1 overflow-y-auto px-6 py-6 hide-scrollbar">
         
         <div className="space-y-4">
-          {/* SECTION 1: 日々の記録 (Daily Records) */}
+          {/* SECTION 1: 日々の記録 (Q1) */}
           <div className="group">
             <button 
               onClick={() => setOpenSection(openSection === 1 ? null : 1)}
               className={`w-full flex items-center justify-between p-5 bg-white border rounded-xl shadow-sm transition-all ${openSection === 1 ? 'border-[#75a7a4]' : 'border-slate-200 hover:border-[#75a7a4]/30'}`}
             >
               <div className="flex items-center gap-3">
-                <div className={`p-2 rounded-lg ${openSection === 1 ? 'bg-[#75a7a4] text-white' : 'bg-slate-100 text-slate-400'}`}>
+                {/* Số thứ tự Q1 */}
+                <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-[12px] font-black shrink-0 ${openSection === 1 ? 'bg-[#75a7a4] text-white' : 'bg-slate-100 text-slate-400'}`}>
+                  01
+                </div>
+                <div className="w-[1px] h-4 bg-slate-200" />
+                <div className={`${openSection === 1 ? 'text-[#75a7a4]' : 'text-slate-400'}`}>
                   <ClipboardEdit className="w-5 h-5" />
                 </div>
                 <span className="text-[14px] font-bold text-slate-700 text-left">日々の記録はどのように行いますか？</span>
@@ -71,14 +75,19 @@ const InstructionView = () => {
             )}
           </div>
 
-          {/* SECTION 2: ARケア (AR Care Implementation) */}
+          {/* SECTION 2: ARケア (Q2) */}
           <div className="group">
             <button 
               onClick={() => setOpenSection(openSection === 2 ? null : 2)}
               className={`w-full flex items-center justify-between p-5 bg-white border rounded-xl shadow-sm transition-all ${openSection === 2 ? 'border-[#75a7a4]' : 'border-slate-200 hover:border-[#75a7a4]/30'}`}
             >
               <div className="flex items-center gap-3">
-                <div className={`p-2 rounded-lg ${openSection === 2 ? 'bg-[#75a7a4] text-white' : 'bg-slate-100 text-slate-400'}`}>
+                {/* Số thứ tự Q2 */}
+                <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-[12px] font-black shrink-0 ${openSection === 2 ? 'bg-[#75a7a4] text-white' : 'bg-slate-100 text-slate-400'}`}>
+                  02
+                </div>
+                <div className="w-[1px] h-4 bg-slate-200" />
+                <div className={`${openSection === 2 ? 'text-[#75a7a4]' : 'text-slate-400'}`}>
                   <Stethoscope className="w-5 h-5" />
                 </div>
                 <span className="text-[14px] font-bold text-slate-700 text-left">ARを用いたケアはどのように実施しますか？</span>
